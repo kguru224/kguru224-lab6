@@ -1,26 +1,22 @@
 import java.util.Random;
 
-public class TypeB extends Thing{
-    private static final Random rand = new Random();
+public class TypeB extends Thing {
+    private int timeSinceLast;
 
-    public TypeB(int row, int col, char color){
-        super(row, col, color);
-        isTypeB = true;
+    public TypeB(int row, int col, char lab) {
+        super(row, col, lab);
+        this.timeSinceLast = 1; // first turn after 10 moves
     }
 
-    public void move(int round) {
-        timeSinceLast++;
+    @Override
+    public void maybeTurn(Random rand) {
         if (timeSinceLast == 10) {
-            timeSinceLast = 0;
+            timeSinceLast = 1; // reset
             int i = rand.nextInt(3);
-            if (i == 1) {
-                rightTurn();
-            }
-            if (i == 2) {
-                leftTurn();
-            }
-
-            stepForward();
+            if (i == 1) rightTurn();
+            else if (i == 2) leftTurn();
+        } else {
+            timeSinceLast++;
         }
     }
 }
